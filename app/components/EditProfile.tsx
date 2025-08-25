@@ -8,24 +8,22 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
   bio: z.string().optional(),
   image: z.custom<File>().optional(),
   username: z.string().optional(),
   location: z.string().optional()
 });
-type MeClientProps = {
+interface MeClientProps  {
   initialProfile: any;
-  initialFollowerCount: any;
-  initialFollowingCount: any;
+  setEditing: (arg0: boolean)=> void;
 };
 
 type ProfileFormValues = z.infer<typeof formSchema>;
-export default  function EditProfile({initialProfile,initialFollowerCount,initialFollowingCount,}: MeClientProps){
-    const [isEditing, setIsEditing] = useState(false);
+export default  function EditProfile({initialProfile, setEditing}: MeClientProps){
+  const router = useRouter()
   const [profile, setProfile] = useState(initialProfile);
-  const [followerCount] = useState(initialFollowerCount);
-  const [followingCount] = useState(initialFollowingCount);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(formSchema),
@@ -53,42 +51,29 @@ export default  function EditProfile({initialProfile,initialFollowerCount,initia
       const response = await fetch('/api/users/me', {
         method: 'PUT',
         body: formData,
+        credentials:"include"
       });
 
       if (!response.ok) throw new Error('Failed to update profile');
 
       const updatedProfile = await response.json();
       setProfile(updatedProfile);
-      setIsEditing(false);
+      router.refresh()
       toast.success('Profile updated successfully!');
     } catch (error) {
       console.log(error)
       toast.error('Error updating profile');
     }
+    finally{
+      setEditing(false)
+    }
     }
     return (
-    <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg">
-      <div className="p-4 border-b">
-        <h2 className="text-2xl font-bold">My Profile</h2>
-      </div>
-      <div className="p-4">
-        {!isEditing ? (
-          <>
-            <div className="space-y-4 mb-6">
-              <p><strong>Bio:</strong> {profile.bio || "Not set"}</p>
-              <p><strong>Username:</strong> {profile.username || "Not set"}</p>
-              <img src={profile.avatar_url || "/default-avatar.png"} alt="Avatar" className="w-32 h-32 object-cover rounded-full" />
-              <p><strong>Location:</strong> {profile.location || "Not set"}</p>
-              <p><strong>Followers:</strong> {followerCount}</p>
-              <p><strong>Following:</strong> {followingCount}</p>
-            </div>
-            <Button onClick={() => setIsEditing(true)} className="bg-blue-500 text-white">
-              Edit Profile
-            </Button>
-          </>
-        ) : (
+    
+        <div className="m-w-full p-3">
+          
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
               <FormField
                 control={form.control}
                 name="bio"
@@ -151,15 +136,10 @@ export default  function EditProfile({initialProfile,initialFollowerCount,initia
                 <Button type="submit" className="bg-green-500 text-white">
                   Save Changes
                 </Button>
-                <Button type="button" onClick={() => setIsEditing(false)} className="bg-gray-500 text-white">
-                  Cancel
-                </Button>
+               
               </div>
             </form>
           </Form>
+          </div>
         )}
-      </div>
-      <ToastContainer />
-    </div>
-  );
-}
+    

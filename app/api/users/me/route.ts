@@ -40,10 +40,14 @@ export async function GET(request: NextRequest){
     if (!user) {
         return NextResponse.json({ error: "User is not authenticated" })
     }
-    const {data: profileData, error: profileDataError} = await supabase.from('profiles').select("*").eq("id",user.id)
+    const {data: profile, error: profileDataError} = await supabase.from('profiles').select("*").eq("id",user.id).single()
     if(profileDataError){
        return NextResponse.json({ error: "failed to fetch user" }) 
     }
-    return NextResponse.json({ data: profileData, message: "Succesfull fetched user" })
+    if(profile?.avatar_url){
+    const { data: urlData } = supabase.storage.from("avatar_images").getPublicUrl(profile?.avatar_url)
+    profile.avatar_url = urlData.publicUrl
+    }
+    return NextResponse.json({ data: profile, message: "Succesfull fetched user" })
 
 }

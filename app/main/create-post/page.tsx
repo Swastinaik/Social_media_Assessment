@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-
+import useFetch from "@/app/lib/fetch";
 const formSchema = z.object({
   content: z.string().min(1, "Content is required"),
   image: z.custom<File>().optional(),
@@ -64,11 +64,11 @@ export default function CreatePost() {
   }
 
   return (
-    <div className="w-full h-screen p-8 flex flex-col items-center justify-start bg-white">
+    <div className="flex flex-col p-6 min-w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full max-w-2xl bg-slate-50 rounded-2xl p-8 shadow space-y-6"
+          className="space-y-10"
         >
           <h3 className="font-bold text-xl mb-4">Create Post</h3>
           
@@ -152,9 +152,11 @@ export default function CreatePost() {
           />
 
           {/* Submit */}
-          <Button type="submit" className="bg-black text-white w-full h-12 text-lg">
+          <div className="flex md:justify-start justify-center">
+          <Button type="submit" className="flex justify-center items-center self:start bg-black text-white min-w-69  h-12 text-lg">
             Submit
           </Button>
+          </div>
         </form>
       </Form>
       <ToastContainer />

@@ -13,12 +13,13 @@ export default function Layout({
 }>) {
   return (
   
-        <div className="flex h-screen overflow-hidden">
+        <div className="min-h-screen  overflow-auto flex">
           {/* Sidebar */}
+          <div className="hidden md:flex">
           <Sidebar />
-          
+          </div>
           {/* Main Content: Flexes to fill the screen */}
-          <main className="flex-1 overflow-y-auto p-6 ml-64"> {/* ml-64 offsets the sidebar width */}
+          <main className="flex-1 overflow-auto p-6"> {/* ml-64 offsets the sidebar width */}
             {children}
           </main>
         </div>

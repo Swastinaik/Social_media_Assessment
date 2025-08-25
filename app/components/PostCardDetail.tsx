@@ -17,18 +17,19 @@ export default function PostCardDetail({ postId, isOpen, onClose }: PostCardDeta
     const [comments, setComments] = useState<any[]>([]);
     const [newComment, setNewComment] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [user, setUser] = useState<string|any>('')
+    const [user, setUser] = useState<string | any>('')
     const [isLiked, setIsLiked] = useState<boolean>(false);
 
     useEffect(() => {
         if (isOpen) {
             const fetchData = async () => {
                 setIsLoading(true);
-                const {post, likeData} = await getPostDetail({ post_id: postId });
+                const { post, likeData } = await getPostDetail({ post_id: postId });
                 const commentsData = await getCommentsOfPost({ post_id: postId });
                 const user = await getCurrentUser()
                 setUser(user?.id)
                 setPost(post);
+                console.log(commentsData)
                 setComments(commentsData || []);
                 setIsLiked((likeData?.length ?? 0) > 0 ? true : false)
                 setIsLoading(false);
@@ -73,72 +74,60 @@ export default function PostCardDetail({ postId, isOpen, onClose }: PostCardDeta
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
             onClick={handleOverlayClick}
         >
-            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full mx-4 p-4 relative max-h-[80vh] overflow-y-auto">
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : post ? (
-                    <>
-                        {post.image_url && (
-                            <img
-                                src={post.image_url}
-                                alt="Post image"
-                                className="w-full h-64 object-cover rounded-t-lg"
-                            />
-                        )}
-                        <div className="p-4">
-                            <p className="text-gray-800 mb-3">{post.content}</p>
-                            <div className="flex items-center space-x-4 text-gray-500 mb-4">
-                                <span className='flex gap-1 justify-center items-center'>{isLiked ? (
-                                    <Heart size={16} className="text-red-500" />
-                                ) : (
-                                    <Heart size={16} />
-                                )} {post.like_count} </span>
-                                <span>Comments: {post.comment_count}</span>
-                            </div>
-
-                            {/* Comments List */}
-                            <div className="mb-4">
-                                <h3 className="font-semibold mb-2">Comments</h3>
-                                {comments.length > 0 ? (
-                                    comments.map((comment) => (
-                                        <div key={comment.id} className="border-b py-2">
-                                            <p className="font-bold">{comment.user?.username || 'Anonymous'}</p>
-                                            <p>{comment.content}</p>
-                                            <span className="text-xs text-gray-400">
-                                                {new Date(comment.created_at).toLocaleString()}
-                                            </span>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No comments yet.</p>
-                                )}
-                            </div>
-
-                            {/* Comment Input */}
-                            <div className="flex items-center border-t pt-4">
-                                <input
-                                    type="text"
-                                    value={newComment}
-                                    onChange={(e) => setNewComment(e.target.value)}
-                                    placeholder="Add a comment..."
-                                    className="flex-1 border rounded-l px-3 py-2 focus:outline-none"
-                                />
-                                <button
-                                    onClick={handleAddComment}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-r"
-                                >
-                                    Post
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <p>Post not found.</p>
-                )}
+        {isLoading ? <h2>Loading...</h2>: (
+           <div className='flex flex-1 h-[500px] w-[1000px] justify-center items-center gap-2 bg-slate-50'>
+            <div className='flex flex-col w-[50%] h-full'>
+                {post?.image_url ? (
+                    <img
+                        src={post?.image_url}
+                        className='h-full w-full  mb-2'
+                        alt='Profile Image'
+                    />
+                ): <p>No Profile Image</p>}
+                <div className='flex gap-3'>
+                    <div className='flex gap-1 justify-items-start'>
+                    <Heart
+                        className={`cursor-pointer ${isLiked ? 'text-red-500': ''}`}
+                        onClick={()=> setIsLiked(!isLiked)}
+                    />
+                    <p className='font-bold'>{post?.like_count}</p>
+                    </div>
+                    <div className='flex gap-1 justify-items-start'>
+                    <MessageCircle/>
+                    <p className='font-bold'>{post?.comment_count}</p>
+                    </div>
+                </div>
             </div>
+            <div className='flex flex-col items-center justify-between min-h-full pt-1'>
+                <h3 className='font-bold text-xl'>Comments:</h3>
+                <div className='flex flex-col gap-1 overflow-auto'>
+                {comments.length > 0 && comments.map((comment)=>{
+                    return <div className='flex flex-col border-b border-gray-500 w-full' key={comment.id}>
+                        <p>{comment?.author ?? "User"}</p>
+                        <p>{comment?.content}</p>
+                        <p>{comment?.created_at}</p>
+                    </div>
+                })}
+                </div>
+                <div className='flex items-center justify-around gap-1 mt-1 w-full p-1'>
+                <input
+                    type='text'
+                    onChange={(e)=>setNewComment(e.target.value)}
+                    value={newComment}
+                    placeholder='Add the comment'
+                    className='w-full h-12 p-1 items-center justify-center border-gray-400'
+                />
+                <button className='bg-black text-white rounded-[2px] p-1' onClick={handleAddComment}>
+                    Add
+                </button>
+            </div>
+            </div>
+            
+           </div>
+           )}
         </div>
     );
 }

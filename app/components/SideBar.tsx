@@ -5,7 +5,7 @@ import { Home, Bell, User, Plus } from "lucide-react";
 
 export default function Sidebar() {
   return (
-    <div className="fixed top-0 left-0 h-screen w-64 bg-gray-100 border-r border-gray-200 flex flex-col p-4 space-y-4">
+    <div className="w-64 bg-gray-100 border-r border-gray-200 flex flex-col p-4 space-y-4">
       {/* Sidebar Header (optional, like Notion's workspace name) */}
       <div className="text-lg font-semibold mb-4">My App</div>
       

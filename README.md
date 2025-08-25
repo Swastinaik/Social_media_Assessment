@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+NextJS Developer Assessment 
 
-## Getting Started
+Register:
+<img width="1920" height="1200" alt="Screenshot (40)" src="https://github.com/user-attachments/assets/c9e4b8ff-136f-4005-9e51-8d8317531774" />
 
-First, run the development server:
+Home Page:
+<img width="1920" height="1200" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/7f0b9c76-1fbe-4c62-b85c-36a1bc59c4ab" />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Create Form:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<img width="1920" height="1200" alt="Screenshot (39)" src="https://github.com/user-attachments/assets/1fa115b1-78c8-4cf7-bb9c-9aef938dc300" />
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Post detail:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<img width="1920" height="1200" alt="Screenshot (41)" src="https://github.com/user-attachments/assets/ae88b2ad-9c38-4466-825a-d6367fecd013" />
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Due to time constraint i could implement some frontend features like admin panel, notifications part
+The backend api routes are well tested using postman and works fine.
+Successfully implement RBAC, jwt claims on postgreSQL,Custom Claims for RBAC Using Auth Hooks for robust security.

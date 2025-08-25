@@ -101,7 +101,9 @@ export default function PostCardDetail({ postId, isOpen, onClose }: PostCardDeta
                     </div>
                 </div>
             </div>
-            <div className='flex flex-col items-center justify-between min-h-full pt-1'>
+            <div className='flex flex-col items-center justify-between min
+            
+            -h-full pt-1'>
                 <h3 className='font-bold text-xl'>Comments:</h3>
                 <div className='flex flex-col gap-1 overflow-auto'>
                 {comments.length > 0 && comments.map((comment)=>{

@@ -25,5 +25,9 @@ export async function POST(request: NextRequest){
         resend: true // Flag for frontend to show resend button
       }, { status: 400 });
     }
+    if (error) {
+  return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    console.log(error)
     return NextResponse.json({data: data, message: "Successfull signin"})
 }

@@ -63,7 +63,15 @@ export async function getCommentsOfPost({post_id}:{post_id: string}){
     const supabase = await createClient()
     const {data: comments, error} = await supabase.from('comment').select().eq('post', post_id)
     if(error) throw error
-    return comments
+     const commentsWithUsernames = await Promise.all(
+    comments.map(async (comment) => {
+      const { data, error } = await supabase.from('profiles').select('username').eq('id', comment.author).single();
+      if (error) throw error; // Or handle gracefully, e.g., return { ...comment, author_username: 'Unknown' }
+
+      return { ...comment, author_username: data?.username || 'Unknown' }; // Safely access username
+    })
+  );
+    return commentsWithUsernames
 }
 
 export async function addCommentToPost({post_id, content, author}:{post_id: string, content: string, author: any}){

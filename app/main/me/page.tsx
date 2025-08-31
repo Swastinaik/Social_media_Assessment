@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
+import Link from "next/link";
 import EditProfile from "@/app/components/EditProfile";
 interface profileData{
     id: string;
@@ -81,7 +82,7 @@ export default function Me(){
                 <div className="flex flex-col gap-2">
                     <p className="font-bold self-start">Website:</p>
                     <div className="p-2 rounded-md bg-slate-100">
-                        <p className="text-gray-700">{profile?.website ?? 'www.google.com'}</p>
+                        <p className="text-gray-700">{profile?.website ?? 'Insert your website...'}</p>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -89,10 +90,13 @@ export default function Me(){
                     <div className="p-2 rounded-md bg-slate-100">
                         <p className="text-gray-700">{profile?.location ?? 'USA'}</p>
                     </div>
-                </div>      
+                </div>
+                <div className="flex justify-between">      
                 <button className="mt-4 flex self-start h-12 w-36 items-center justify-center bg-blue-500 text-white rounded-[6px] cursor-pointer" onClick={()=> setEditing(true)}>
                     Edit
                 </button>
+                <Link href="/change-password" className="mt-4 flex self-start h-12 w-36 items-center justify-center bg-blue-500 text-white rounded-[6px] cursor-pointer">Change Password</Link>
+                </div>
             </div>
             ):<EditProfile initialProfile={profile} setEditing={setEditing}/>}
         </div>

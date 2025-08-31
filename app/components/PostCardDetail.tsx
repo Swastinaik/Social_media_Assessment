@@ -31,6 +31,7 @@ export default function PostCardDetail({ postId, isOpen, onClose }: PostCardDeta
                 setPost(post);
                 console.log(commentsData)
                 setComments(commentsData || []);
+                console.log(commentsData)
                 setIsLiked((likeData?.length ?? 0) > 0 ? true : false)
                 setIsLoading(false);
             };
@@ -73,63 +74,74 @@ export default function PostCardDetail({ postId, isOpen, onClose }: PostCardDeta
     if (!isOpen) return null;
 
     return (
-        <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
-            onClick={handleOverlayClick}
-        >
-        {isLoading ? <h2>Loading...</h2>: (
-           <div className='flex flex-1 h-[500px] w-[1000px] justify-center items-center gap-2 bg-slate-50'>
-            <div className='flex flex-col w-[50%] h-full'>
-                {post?.image_url ? (
-                    <img
-                        src={post?.image_url}
-                        className='h-full w-full  mb-2'
-                        alt='Profile Image'
-                    />
-                ): <p>No Profile Image</p>}
-                <div className='flex gap-3'>
-                    <div className='flex gap-1 justify-items-start'>
-                    <Heart
-                        className={`cursor-pointer ${isLiked ? 'text-red-500': ''}`}
-                        onClick={()=> setIsLiked(!isLiked)}
-                    />
-                    <p className='font-bold'>{post?.like_count}</p>
-                    </div>
-                    <div className='flex gap-1 justify-items-start'>
-                    <MessageCircle/>
-                    <p className='font-bold'>{post?.comment_count}</p>
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-col items-center justify-between min
-            
-            -h-full pt-1'>
-                <h3 className='font-bold text-xl'>Comments:</h3>
-                <div className='flex flex-col gap-1 overflow-auto'>
-                {comments.length > 0 && comments.map((comment)=>{
-                    return <div className='flex flex-col border-b border-gray-500 w-full' key={comment.id}>
-                        <p>{comment?.author ?? "User"}</p>
-                        <p>{comment?.content}</p>
-                        <p>{comment?.created_at}</p>
-                    </div>
-                })}
-                </div>
-                <div className='flex items-center justify-around gap-1 mt-1 w-full p-1'>
-                <input
-                    type='text'
-                    onChange={(e)=>setNewComment(e.target.value)}
-                    value={newComment}
-                    placeholder='Add the comment'
-                    className='w-full h-12 p-1 items-center justify-center border-gray-400'
-                />
-                <button className='bg-black text-white rounded-[2px] p-1' onClick={handleAddComment}>
-                    Add
-                </button>
-            </div>
-            </div>
-            
-           </div>
-           )}
+       <div
+  className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+  onClick={handleOverlayClick}
+>
+  {isLoading ? <h2 className="text-xl font-semibold text-white">Loading...</h2> : (
+    <div className="flex flex-1 max-w-5xl w-full max-h-[80vh] bg-white rounded-xl shadow-2xl overflow-hidden">
+      <div className="flex flex-col w-1/2 h-full bg-gray-50">
+        {post?.image_url ? (
+          <img
+            src={post?.image_url}
+            className="h-full w-full object-cover"
+            alt="Post Image"
+          />
+        ) : <p className="p-4 text-center text-gray-500">No Post Image</p>}
+        <div className="flex gap-4 p-4 bg-white border-t">
+          <div className="flex items-center gap-1">
+            <Heart
+              className={`cursor-pointer w-6 h-6 ${isLiked ? 'text-red-500 fill-red-500' : 'text-gray-500'}`}
+              onClick={() => setIsLiked(!isLiked)}
+            />
+            <p className="font-bold text-gray-700">{post?.like_count}</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <MessageCircle className="w-6 h-6 text-gray-500" />
+            <p className="font-bold text-gray-700">{post?.comment_count}</p>
+          </div>
         </div>
+      </div>
+      <div className="flex flex-col w-1/2 min-h-full p-4 bg-white">
+        <h3 className="font-bold text-xl text-gray-800 mb-4">Comments</h3>
+        <div className="flex flex-col gap-2 overflow-y-auto max-h-[calc(80vh-200px)] pr-2">
+          {comments.length > 0 ? comments.map((comment) => (
+            <div
+              key={comment.id}
+              className="flex flex-col p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold">
+                  {comment?.author?.[0] ?? 'U'} {/* Simple avatar placeholder */}
+                </div>
+                <p className="font-semibold text-gray-800">{comment?.author_username ?? "User"}</p>
+              </div>
+              <p className="text-gray-700">{comment?.content}</p>
+              <p className="text-sm text-gray-500 mt-1">{comment?.created_at}</p>
+            </div>
+          )) : (
+            <p className="text-center text-gray-500">No comments yet.</p>
+          )}
+        </div>
+        <div className="flex items-center gap-2 mt-4 p-2 bg-gray-50 rounded-lg border border-gray-300">
+          <input
+            type="text"
+            onChange={(e) => setNewComment(e.target.value)}
+            value={newComment}
+            placeholder="Add a comment..."
+            className="flex-1 h-10 px-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          />
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            onClick={handleAddComment}
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
     );
 }

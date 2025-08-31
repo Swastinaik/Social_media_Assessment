@@ -16,6 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import Link from "next/link";
 const formSchema = z.object({
     username: z.string().min(2, {
         message: "Username must be at least 2 characters.",
@@ -171,7 +172,11 @@ return (
                     )}
                 />
                 <Button type="submit">Submit</Button>
+                <Link href="/login" className="text-blue-500">
+                Already have an account? Login
+            </Link>
             </form>
+            
         </Form>
         <ToastContainer />
     </div>

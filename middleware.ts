@@ -35,6 +35,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/register', request.url));
   }
 
+  if (request.nextUrl.pathname === '/' && !session) {
+    return NextResponse.redirect(new URL('/register', request.url));
+  } 
+  if (request.nextUrl.pathname === '/' && session) {
+    return NextResponse.redirect(new URL('/main', request.url));
+  }
   // Use the session for logic, e.g., protect routes
   if (request.nextUrl.pathname.startsWith('/main') && !session) {
     return NextResponse.redirect(new URL('/login', request.url));

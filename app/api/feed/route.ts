@@ -7,7 +7,7 @@ export async function GET(request: NextRequest){
     if(!user || authError){
         return NextResponse.json({error: "Unauthorized"})
     }
-    let query = supabase.from('posts')
+    const query = supabase.from('posts')
     .select(`
       id,
       author,

@@ -85,9 +85,9 @@ export default function ProfileForm() {
     }
 
     // Optional: Listen for auth state changes to handle session globally
-    useEffect( () => {
+    useEffect(() => {
         const supabase = createClient();
-        const { data: { subscription } } =  supabase.auth.onAuthStateChange((event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN') {
                 console.log('User signed in:', session?.user);
             }
@@ -130,10 +130,10 @@ export default function ProfileForm() {
                         {isLoading ? "Logging in..." : "Submit"}
                     </Button>
                     <Link href="/register" className="text-blue-500">
-                    Don't have an account? Register
-                </Link>
+                        Don&apos;t have an account? Register
+                    </Link>
                 </form>
-                
+
             </Form>
             <ToastContainer />
         </div>

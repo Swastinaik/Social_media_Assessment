@@ -15,8 +15,8 @@ export async function POST(request: NextRequest, {params}:{params:Promise<{user_
     return NextResponse.json({ data: data, message: "Succesfully followed user" })
 }
 
-export async function DELETE(request: NextRequest, {params}:{params:{user_id: string}}){
-    const {user_id: follow_id} = params
+export async function DELETE(request: NextRequest, {params}:{params:Promise<{user_id: string}>}){
+    const {user_id: follow_id} = await params
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {

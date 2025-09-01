@@ -25,9 +25,9 @@ export async function POST(request: NextRequest, {params}:{params: Promise<{post
     return NextResponse.json({data: likeData, message: "successfully liked the post"})
 }
 
-export async function DELETE(request: NextRequest, {params}:{params: {post_id: string}}){
+export async function DELETE(request: NextRequest, {params}:{params:Promise<{post_id: string}>}){
     const supabase = await createClient()
-    const { post_id } = params
+    const { post_id } = await params
     const {data:{user}, error: authError} = await supabase.auth.getUser()
     if(!user || authError){
         return NextResponse.json({error: "Unauthorized"})

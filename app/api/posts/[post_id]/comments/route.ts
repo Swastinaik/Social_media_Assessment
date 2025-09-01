@@ -26,9 +26,9 @@ export async function POST(request: NextRequest, {params}:{params: Promise<{post
 
 
 
-export async function GET(request: NextRequest, {params}:{params: {post_id: string}}){
+export async function GET(request: NextRequest, {params}:{params: Promise<{post_id: string}>}){
     const supabase = await createClient()
-    const { post_id } = params
+    const { post_id } = await params
     const {data: commentData, error: commentError} = await supabase.from('comment').select("*").eq("post",post_id)
     if(commentError){
         return NextResponse.json({error: "failed to get comments"})

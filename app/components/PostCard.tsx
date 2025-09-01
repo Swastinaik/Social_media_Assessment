@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { Heart, MessageCircle } from "lucide-react";
-import { getPostDetail, likePost, checkLikeStatus } from '../lib/action';
+import { likePost } from '../lib/action';
 import { toast } from 'react-toastify';
 import PostCardDetail from './PostCardDetail';
 

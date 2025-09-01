@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import useFetch from "@/app/lib/fetch";
+
 const formSchema = z.object({
   content: z.string().min(1, "Content is required"),
   image: z.custom<File>().optional(),

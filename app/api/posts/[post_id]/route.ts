@@ -48,8 +48,8 @@ export async function PUT(request: NextRequest, {params}:{params: Promise<{post_
 }
 
 
-export async function DELETE(request: NextRequest, {params}:{params: {post_id: string}}){
-    const {post_id} = params
+export async function DELETE(request: NextRequest, {params}:{params: Promise<{post_id: string}>}){
+    const {post_id} = await params
     const supabase = await createClient()
     const {data:{user}, error: authError} = await supabase.auth.getUser()
     if(!user || authError){

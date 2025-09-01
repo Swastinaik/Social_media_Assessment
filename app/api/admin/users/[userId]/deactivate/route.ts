@@ -13,3 +13,4 @@ export async function POST(request: NextRequest, params: { params: Promise<{ use
 
   return NextResponse.json({ message: 'User deactivated successfully' });
 }
+  

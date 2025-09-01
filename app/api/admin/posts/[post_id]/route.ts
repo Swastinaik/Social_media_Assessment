@@ -5,8 +5,7 @@ import { isAdmin } from '@/app/lib/supabase/adminUtils';
 // DELETE /api/admin/posts/{post_id}/ - Delete post
 export async function DELETE(request: NextRequest, { params }: { params: { post_id: string } }) {
   const supabase = await createClient();
-  const authorized = await isAdmin(supabase);
-  if (!authorized) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+ 
 
   const { error } = await supabase
     .from('posts')

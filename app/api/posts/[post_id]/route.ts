@@ -2,9 +2,9 @@ import { createClient } from "@/app/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import {v4 as uuidv4} from 'uuid'
 
-export async function GET(request: NextRequest, {params}:{params: {post_id: string}}){
+export async function GET(request: NextRequest, {params}:{params: Promise<{post_id: string}>}){
     const supabase = await createClient()
-    const { post_id } = params
+    const { post_id } = await params
     const {data: postData, error: postError} = await supabase.from('posts').select().eq('id',post_id)
     if(!postData || postError){
         return NextResponse.json({error: "Error while fetching the post"})

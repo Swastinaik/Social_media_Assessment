@@ -1,9 +1,9 @@
 import { createClient } from "@/app/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(request: NextRequest, {params}:{params: {comment_id: string}}){
+export async function DELETE(request: NextRequest, params: {params: Promise<{comment_id: string}>}){
     const supabase = await createClient()
-    const { comment_id } = params
+    const { comment_id } = await params.params
     const {data:{user}, error: authError} = await supabase.auth.getUser()
     if(!user || authError){
         return NextResponse.json({error: "Unauthorized"})

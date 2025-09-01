@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/app/lib/supabase/server";
 
-export async function GET(request: NextRequest,{params}:{params: {user_id: string}}){
-    const {user_id} = params
+export async function GET(request: NextRequest,{params}:{params: Promise<{user_id: string}>}){
+    const {user_id} = await params
     const supabase = await createClient()
     const {data, error} = await supabase.from('profiles').select().eq('id',user_id)
     if(error){

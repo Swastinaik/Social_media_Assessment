@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/app/lib/supabase/server";
 
-export async function POST(request: NextRequest, {params}:{params:{user_id: string}}){
-    const {user_id: follow_id} = params
+export async function POST(request: NextRequest, {params}:{params:Promise<{user_id: string}>}){
+    const {user_id: follow_id} = await params
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {

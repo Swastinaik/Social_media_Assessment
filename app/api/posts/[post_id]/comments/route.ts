@@ -1,9 +1,9 @@
 import { createClient } from "@/app/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest, {params}:{params: {post_id: string}}){
+export async function POST(request: NextRequest, {params}:{params: Promise<{post_id: string}>}){
     const supabase = await createClient()
-    const { post_id } = params
+    const { post_id } = await params
     const formData = await request.formData()
     const content = formData.get('content')
     if(!content){

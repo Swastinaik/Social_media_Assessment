@@ -39,9 +39,8 @@ export async function getPostDetail({post_id}:{post_id:string}){
     const supabase = await createClient()
     const {data: post} = await supabase.from('posts').select().eq('id', post_id).single()
     const {data: likeData} = await supabase.from('likes').select().eq('post_id',post_id).eq('user_id', user?.id)
-    const { data: urlData } = supabase.storage
-            .from("post_images") // Replace with your actual bucket name (e.g., 'images')
-            .getPublicUrl(post?.image_url); // Pass the stored path (e.g., 'folder/image.png')
+    console.log(post)
+    const { data: urlData } = await supabase.storage.from("post_images").getPublicUrl(post?.image_url); // Pass the stored path (e.g., 'folder/image.png')
     post.image_url = urlData.publicUrl
 
     return { post, likeData }

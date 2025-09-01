@@ -132,6 +132,9 @@ export default function ProfileForm() {
                     <Link href="/register" className="text-blue-500">
                         Don&apos;t have an account? Register
                     </Link>
+                    <Link href="/forgot-password" className="text-blue-500">
+                        Forgot your password?
+                    </Link>
                 </form>
 
             </Form>

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 
 export default function PasswordResetConfirm() {
   const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -14,12 +13,13 @@ export default function PasswordResetConfirm() {
   useEffect(() => {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
-    const access = params.get('access_token');
-    const refresh = params.get('refresh_token');
-    if (access && refresh) {
-      setAccessToken(access);
-      setRefreshToken(refresh);
-    } else {
+    
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get('code');
+    if (code) {
+      setAccessToken(code);
+    }
+     else {
       setError('Invalid or missing reset tokens. Please request a new reset email.');
     }
   }, []);
@@ -33,7 +33,7 @@ export default function PasswordResetConfirm() {
     const res = await fetch('/api/auth/password-reset-confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ access_token: accessToken, refresh_token: refreshToken, new_password: newPassword }),
+      body: JSON.stringify({ access_token: accessToken,new_password: newPassword }),
     });
 
     const data = await res.json();
@@ -64,7 +64,7 @@ export default function PasswordResetConfirm() {
         />
         <button
           type="submit"
-          disabled={loading || !accessToken || !refreshToken}
+          disabled={loading || !accessToken }
           className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-50"
         >
           {loading ? 'Resetting...' : 'Reset Password'}

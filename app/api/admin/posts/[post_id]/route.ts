@@ -3,7 +3,7 @@ import { createClient } from '@/app/lib/supabase/server';
 
 
 // DELETE /api/admin/posts/{post_id}/ - Delete post
-export async function DELETE(request: NextRequest, context: { params: { post_id: string } }) {
+export async function GET(request: NextRequest, context: { params: { post_id: string } }) {
   const supabase = await createClient();
    const { post_id } = context.params;
   const { error } = await supabase

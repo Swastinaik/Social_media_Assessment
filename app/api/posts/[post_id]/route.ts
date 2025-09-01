@@ -12,9 +12,9 @@ export async function GET(request: NextRequest, {params}:{params: Promise<{post_
     return NextResponse.json({data: postData, message: "Successfully fetched the post."})
 }
 
-export async function PUT(request: NextRequest, {params}:{params: {post_id: string}}){
+export async function PUT(request: NextRequest, {params}:{params: Promise<{post_id: string}>}){
     const supabase = await createClient()
-    const {post_id} = params
+    const {post_id} = await params
     const formData = await request.formData()
     const {data: {user},error: userError} = await supabase.auth.getUser()
     if(!user || userError){
